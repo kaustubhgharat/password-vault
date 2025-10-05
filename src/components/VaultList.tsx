@@ -45,7 +45,7 @@ export default function VaultList() {
       if (!res.ok) throw new Error('Failed to fetch data');
       const data = await res.json();
       setItems(data);
-    } catch (error) {
+    } catch (_error) {
       toast.error('Could not fetch vault items.');
     } finally {
       setIsLoading(false);
@@ -87,7 +87,7 @@ export default function VaultList() {
         await fetch(`/api/vault/${id}`, { method: 'DELETE' });
         toast.success("Item deleted.");
         fetchItems();
-    } catch (error) {
+    } catch (_error) {
         toast.error("Failed to delete item.");
     }
   };
@@ -173,7 +173,7 @@ a.click();
 
             toast.success(`Successfully imported ${importedItems.length} items!`, { id: 'import-toast' });
             fetchItems();
-        } catch (error) {
+        } catch (_error) {
             toast.error("Import failed. The file may be corrupt or the decryption key is incorrect.");
         }
     };

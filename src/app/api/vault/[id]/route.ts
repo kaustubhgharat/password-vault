@@ -3,16 +3,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import { VaultItem } from '@/lib/models/VaultItem';
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+// The second argument is now a 'context' object
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
   await dbConnect();
   try {
     const userId = request.headers.get('X-User-ID');
-    const { id } = params;
+    // Get the id from context.params
+    const { id } = context.params;
     const body = await request.json();
 
     const updatedItem = await VaultItem.findOneAndUpdate(
       { _id: id, userId },
-      body,
+      {
+        title: body.title,
+        url: body.url,
+        encryptedUsername: body.encryptedUsername,
+        encryptedPassword: body.encryptedPassword,
+        encryptedNotes: body.encryptedNotes,
+        tags: body.tags,
+      },
       { new: true }
     );
 
@@ -21,16 +30,17 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
     return NextResponse.json(updatedItem);
   } catch (error) {
-        console.log(error);
     return NextResponse.json({ message: 'Error updating vault item' }, { status: 500 });
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+// Also update the DELETE function signature for consistency
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
   await dbConnect();
   try {
     const userId = request.headers.get('X-User-ID');
-    const { id } = params;
+    // Get the id from context.params
+    const { id } = context.params;
 
     const deletedItem = await VaultItem.findOneAndDelete({ _id: id, userId });
 
@@ -39,7 +49,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
     return NextResponse.json({ message: 'Item deleted successfully' });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ message: 'Error deleting vault item' }, { status: 500 });
   }
 }
