@@ -23,6 +23,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         encryptedUsername: body.encryptedUsername,
         encryptedPassword: body.encryptedPassword,
         encryptedNotes: body.encryptedNotes,
+        tags: body.tags,
       },
       { new: true }
     );
