@@ -1,32 +1,27 @@
 // src/middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { verifyToken } from '@/utils/tokens';
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
+
+// Add this line to switch the runtime environment
+export const runtime = 'nodejs';
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value;
-  const { pathname } = req.nextUrl;
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
     return NextResponse.json({ message: 'Authentication required' }, { status: 401 });
   }
 
-  try {
-    const decoded = await verifyToken(token);
-    const requestHeaders = new Headers(req.headers);
-    requestHeaders.set('X-User-ID', decoded.id as string);
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('X-User-ID', token.id as string);
 
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
-  } catch (error) {
-     console.log(error);
-    return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
-  }
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {
-  matcher: '/api/vault/:path*',
+  matcher: ['/api/vault/:path*', '/api/auth/status'],
 };

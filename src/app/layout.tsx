@@ -1,15 +1,15 @@
 // src/app/layout.tsx
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import '@/app/globals.css';
-import { ToasterProvider } from '@/components/ToasterProvider';
-import { AuthProvider } from '@/context/AuthContext';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "@/app/globals.css";
+import { ToasterProvider } from "@/components/ToasterProvider";
+import { AuthProvider } from "@/context/AuthContext";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Secure Vault',
-  description: 'A client-side encrypted password manager.',
+  title: "Secure Vault",
+  description: "A client-side encrypted password manager.",
 };
 
 export default function RootLayout({
@@ -18,12 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} bg-gray-50 text-gray-900`}>
-        <AuthProvider>
-          <ToasterProvider />
-          {children}
-        </AuthProvider>
+        
+            <AuthProvider>
+              <ToasterProvider />
+              {children}
+            </AuthProvider>
       </body>
     </html>
   );
