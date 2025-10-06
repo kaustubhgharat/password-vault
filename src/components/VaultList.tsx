@@ -61,7 +61,7 @@ export default function VaultList() {
     const filtered = items.filter(item => {
       return item.title.toLowerCase().includes(lowercasedFilter) || 
              item.url.toLowerCase().includes(lowercasedFilter) ||
-             (item.tags || []).some(tag => tag.toLowerCase().includes(lowercasedFilter)); // The fix is here
+             (item.tags || []).some(tag => tag.toLowerCase().includes(lowercasedFilter));
     });
     setFilteredItems(filtered);
   }, [searchTerm, items]);
@@ -119,7 +119,7 @@ export default function VaultList() {
       username: decryptData(item.encryptedUsername, decryptionKey),
       password: decryptData(item.encryptedPassword, decryptionKey),
       notes: decryptData(item.encryptedNotes, decryptionKey),
-      tags: item.tags || [], // Use fallback for old items without tags
+      tags: item.tags || [],
     }));
 
     const jsonString = JSON.stringify(decryptedForExport, null, 2);
@@ -131,7 +131,7 @@ export default function VaultList() {
     a.href = url;
     a.download = `secure-vault-backup-${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(a);
-a.click();
+    a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     toast.success("Vault exported successfully!");
@@ -184,15 +184,15 @@ a.click();
   if (isLoading) return <div>Loading vault...</div>;
 
   return (
-    <div className="p-6 bg-white border rounded-lg shadow-sm">
+    <div className="p-6 bg-white border rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="text-lg font-semibold">Vault Items</h3>
         <div className="flex items-center gap-2">
             <input type="file" ref={fileInputRef} onChange={handleImport} className="hidden" accept=".txt, .json" />
-            <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
+            <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600">
                 <Upload size={16} /> Import
             </button>
-            <button onClick={handleExport} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
+            <button onClick={handleExport} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600">
                 <Download size={16} /> Export
             </button>
             <button onClick={openAddModal} className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
@@ -206,21 +206,21 @@ a.click();
         placeholder="Search by title, URL, or tag..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full p-2 mb-4 bg-gray-50 border rounded-md"
+        className="w-full p-2 mb-4 bg-gray-50 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
       />
 
       <div className="space-y-3">
         {decryptedItems.length > 0 ? decryptedItems.map((item) => (
-          <div key={item._id} className="p-4 border rounded-md">
+          <div key={item._id} className="p-4 border rounded-md dark:border-gray-700">
             <div className="flex items-start justify-between">
                 <div>
                     <h4 className="font-bold">{item.title}</h4>
-                    <p className="text-sm text-gray-500">{item.username}</p>
-                    <p className="text-sm text-gray-500 break-all">{item.url}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{item.username}</p>
+                    <p className="text-sm text-gray-500 break-all dark:text-gray-400">{item.url}</p>
                     {item.tags && item.tags.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-2">
                             {item.tags.map(tag => (
-                                <span key={tag} className="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
+                                <span key={tag} className="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                                     {tag}
                                 </span>
                             ))}
@@ -228,8 +228,8 @@ a.click();
                     )}
                 </div>
                 <div className="flex items-center gap-2">
-                    <button onClick={() => openEditModal(item)} className="p-1 text-gray-500 hover:text-blue-600"><Edit size={16} /></button>
-                    <button onClick={() => handleDelete(item._id)} className="p-1 text-gray-500 hover:text-red-600"><Trash2 size={16} /></button>
+                    <button onClick={() => openEditModal(item)} className="p-1 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"><Edit size={16} /></button>
+                    <button onClick={() => handleDelete(item._id)} className="p-1 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><Trash2 size={16} /></button>
                 </div>
             </div>
             <div className="flex items-center justify-between mt-2">
@@ -237,17 +237,17 @@ a.click();
                     <span className="w-40 truncate">
                         {visiblePasswords[item._id] ? item.password : '••••••••••••'}
                     </span>
-                    <button onClick={() => togglePasswordVisibility(item._id)} className="p-1 text-gray-500 hover:text-gray-800">
+                    <button onClick={() => togglePasswordVisibility(item._id)} className="p-1 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
                         {visiblePasswords[item._id] ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                 </div>
-                <button onClick={() => handleCopy(item.password)} className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 rounded-md hover:bg-blue-50">
+                <button onClick={() => handleCopy(item.password)} className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 rounded-md hover:bg-blue-50 dark:hover:bg-gray-700">
                     <Copy size={12} /> Copy Password
                 </button>
             </div>
           </div>
         )) : (
-            <p className="text-center text-gray-500">No items found. Add one to get started!</p>
+            <p className="text-center text-gray-500 dark:text-gray-400">No items found. Add one to get started!</p>
         )}
       </div>
       

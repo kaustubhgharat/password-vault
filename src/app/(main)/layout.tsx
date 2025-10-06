@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { LogOut } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function MainLayout({
   children,
@@ -43,19 +44,26 @@ export default function MainLayout({
   if (status === "authenticated" && isLoggedIn) {
     return (
       <div>
-        <header className="bg-white shadow-sm">
+        <header className="bg-white dark:bg-gray-900 shadow-sm">
           <nav className="container flex items-center justify-between p-4 mx-auto">
-            <h1 className="text-xl font-bold text-blue-600">Secure Vault</h1>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 rounded-md hover:bg-gray-100"
-            >
-              <LogOut size={16} />
-              Logout
-            </button>
+            <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">
+              Secure Vault
+            </h1>
+            <div className="flex items-center gap-4">
+              <ModeToggle />
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
           </nav>
         </header>
-        <main className="container p-4 mx-auto">{children}</main>
+        <main className="container p-4 mx-auto bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+          {children}
+        </main>
       </div>
     );
   }
