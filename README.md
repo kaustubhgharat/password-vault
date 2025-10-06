@@ -12,8 +12,7 @@ Secure Vault is a simple, fast, and privacy-first password manager built with **
 - **Password Generator:** Create strong, customizable passwords.
 - **Secure Vault:** Save, view, edit, and delete your login credentials.
 - **Client-Side Encryption:** Your data is encrypted in your browser using your master password before it's sent to the server. The server only stores encrypted blobs.
-- **Search:** Quickly find any item by searching its title, URL, or tags.
-- **Tags:** Organize your vault items with comma-separated tags.
+- **Search:** Quickly find any item by searching its title, URL.
 - **Encrypted Backup & Restore:** Securely export and import your entire vault.
 - **Dark Mode:** A sleek dark theme for comfortable viewing in low-light environments.
 
