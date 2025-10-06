@@ -2,7 +2,6 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Add this line to switch the runtime environment
 export const runtime = 'nodejs';
 
 export async function middleware(req: NextRequest) {
@@ -23,5 +22,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/vault/:path*', '/api/auth/status'],
+  matcher: ['/api/vault/:path*', '/api/auth/status'], 
 };

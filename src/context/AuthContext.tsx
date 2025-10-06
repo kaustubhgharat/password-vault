@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
@@ -7,6 +6,7 @@ import { deriveKey } from '@/utils/crypto';
 interface AuthContextType {
   decryptionKey: string | null;
   isLoggedIn: boolean;
+  isLoading: boolean; 
   setDecryptionKey: (password: string, salt: string) => void;
   logout: () => void;
 }
@@ -23,31 +23,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (storedKey) {
         setDecryptionKeyState(storedKey);
       }
-    } catch (e) {
-      console.error("Could not read from session storage", e);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   const setDecryptionKey = (password: string, salt: string) => {
     const key = deriveKey(password, salt);
     setDecryptionKeyState(key);
-    sessionStorage.setItem('decryptionKey', key); 
+    sessionStorage.setItem('decryptionKey', key);
   };
 
   const logout = () => {
     setDecryptionKeyState(null);
-    sessionStorage.removeItem('decryptionKey'); 
+    sessionStorage.removeItem('decryptionKey');
+
   };
 
   const isLoggedIn = !!decryptionKey;
 
-  if (isLoading) {
-    return null; 
-  }
-
   return (
-    <AuthContext.Provider value={{ decryptionKey, isLoggedIn, setDecryptionKey, logout }}>
+    <AuthContext.Provider value={{ decryptionKey, isLoggedIn, isLoading, setDecryptionKey, logout }}>
       {children}
     </AuthContext.Provider>
   );

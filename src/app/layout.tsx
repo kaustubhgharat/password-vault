@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import { ToasterProvider } from "@/components/ToasterProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import NextAuthProvider from '@/components/SessionProvider'; // 1. Import the new provider
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} bg-gray-50 text-gray-900`}>
-        
-            <AuthProvider>
-              <ToasterProvider />
-              {children}
-            </AuthProvider>
+        <NextAuthProvider>
+          <AuthProvider>
+            <ToasterProvider />
+            {children}
+          </AuthProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
