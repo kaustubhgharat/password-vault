@@ -11,7 +11,6 @@ export interface VaultItemForm {
   username: string;
   password: string;
   notes: string;
-  tags: string;
 }
 
 interface VaultItemData {
@@ -21,7 +20,6 @@ interface VaultItemData {
   encryptedUsername: string;
   encryptedPassword: string;
   encryptedNotes: string;
-  tags: string[];
 }
 
 interface ModalProps {
@@ -41,7 +39,6 @@ export default function AddEditVaultItemModal({
     username: "",
     password: "",
     notes: "",
-    tags: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const { decryptionKey } = useAuth();
@@ -54,7 +51,6 @@ export default function AddEditVaultItemModal({
         username: decryptData(item.encryptedUsername, decryptionKey),
         password: decryptData(item.encryptedPassword, decryptionKey),
         notes: decryptData(item.encryptedNotes, decryptionKey),
-        tags: (item.tags || []).join(", "),
       });
     }
   }, [item, decryptionKey]);
@@ -73,10 +69,7 @@ export default function AddEditVaultItemModal({
       return;
     }
     setIsLoading(true);
-    const tagsArray = formData.tags
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag !== "");
+    
 
     const encryptedPayload = {
       title: formData.title,
@@ -84,7 +77,6 @@ export default function AddEditVaultItemModal({
       encryptedUsername: encryptData(formData.username, decryptionKey),
       encryptedPassword: encryptData(formData.password, decryptionKey),
       encryptedNotes: encryptData(formData.notes, decryptionKey),
-      tags: tagsArray,
     };
 
     try {
@@ -146,13 +138,7 @@ export default function AddEditVaultItemModal({
             required
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           />
-          <input
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            placeholder="Tags (comma-separated)"
-            className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          />
+         
           <textarea
             name="notes"
             value={formData.notes}
