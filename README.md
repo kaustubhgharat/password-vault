@@ -39,7 +39,7 @@ Example:
 - **Language:** TypeScript  
 - **Database:** MongoDB with Mongoose  
 - **Authentication:** next-auth  
-- **Client-Side Encryption:** CryptoJS (AES-256 + PBKDF2)  
+- **Client-Side Encryption:** CryptoJS 
 - **Styling:** Tailwind CSS  
 - **Theming:** next-themes  
 - **UI Components:** React Hot Toast & Lucide React  
