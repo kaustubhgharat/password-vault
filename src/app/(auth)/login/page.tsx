@@ -15,7 +15,6 @@ export default function LoginPage() {
   const { status, data: session } = useSession();
   const { setDecryptionKey, isLoggedIn } = useAuth();
 
-  // ✅ Jab session + encryptionSalt ready ho, tabhi decryption key set karo
   useEffect(() => {
     if (status === "authenticated" && session?.user?.encryptionSalt && !isLoggedIn) {
       const savedPassword = sessionStorage.getItem("lastLoginPassword");
@@ -44,27 +43,23 @@ export default function LoginPage() {
       if (result?.error) {
         throw new Error("Invalid credentials");
       }
-      // redirect ka kaam ab useEffect karega
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
       setIsLoading(false);
     }
   };
 
-  // Agar session check ho raha hai to loader dikhaye
   if (status === "loading") {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  // Agar already authenticated + vault unlocked hai to login page mat dikhao
   if (status === "authenticated" && isLoggedIn) {
     return <div className="flex items-center justify-center min-h-screen">Redirecting...</div>;
   }
 
-  // ✅ Agar unauthenticated hai to login form dikhaye
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <h2 className="text-xl font-bold text-center">Login to Your Vault</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -74,7 +69,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 mt-1 border rounded-md"
+              className="w-full px-3 py-2 mt-1 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             />
           </div>
           <div>
@@ -84,7 +79,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 mt-1 border rounded-md"
+              className="w-full px-3 py-2 mt-1 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             />
           </div>
           <button
@@ -108,3 +103,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
