@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import { VaultItem } from '@/lib/models/VaultItem';
 
-// Define the expected type for the context parameter
 type RouteContext = {
   params: Promise<{ id: string }>;
 }

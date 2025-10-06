@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useCallback } from 'react';
-import { Copy, RefreshCw } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { useState, useCallback } from "react";
+import { Copy, RefreshCw } from "lucide-react";
+import toast from "react-hot-toast";
 
-const NUMBERS = '0123456789';
-const LETTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-const LOOKALIKES = 'Il1O0';
+const NUMBERS = "0123456789";
+const LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+const LOOKALIKES = "Il1O0";
 
 export default function PasswordGenerator() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [length, setLength] = useState(16);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
@@ -22,10 +22,13 @@ export default function PasswordGenerator() {
     if (includeSymbols) charset += SYMBOLS;
 
     if (excludeLookalikes) {
-      charset = charset.split('').filter(char => !LOOKALIKES.includes(char)).join('');
+      charset = charset
+        .split("")
+        .filter((char) => !LOOKALIKES.includes(char))
+        .join("");
     }
 
-    let newPassword = '';
+    let newPassword = "";
     for (let i = 0; i < length; i++) {
       newPassword += charset.charAt(Math.floor(Math.random() * charset.length));
     }
@@ -35,16 +38,16 @@ export default function PasswordGenerator() {
   const copyToClipboard = () => {
     if (!password) return;
     navigator.clipboard.writeText(password);
-    toast.success('Password copied to clipboard!');
+    toast.success("Password copied to clipboard!");
     setTimeout(() => {
-        console.log("Clipboard auto-clear simulation.");
+      console.log("Clipboard auto-clear simulation.");
     }, 15000);
   };
-  
+
   return (
     <div className="p-6 bg-white border rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       <h3 className="mb-4 text-lg font-semibold">Password Generator</h3>
-      
+
       <div className="relative flex items-center mb-4">
         <input
           type="text"
@@ -54,12 +57,18 @@ export default function PasswordGenerator() {
           className="w-full p-2 pr-20 font-mono bg-gray-100 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         />
         <div className="absolute inset-y-0 right-0 flex items-center">
-            <button onClick={generatePassword} className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500">
-                <RefreshCw size={20} />
-            </button>
-            <button onClick={copyToClipboard} className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500">
-                <Copy size={20} />
-            </button>
+          <button
+            onClick={generatePassword}
+            className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"
+          >
+            <RefreshCw size={20} />
+          </button>
+          <button
+            onClick={copyToClipboard}
+            className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"
+          >
+            <Copy size={20} />
+          </button>
         </div>
       </div>
 
@@ -76,16 +85,40 @@ export default function PasswordGenerator() {
           />
         </div>
         <div className="flex items-center">
-          <input type="checkbox" id="numbers" checked={includeNumbers} onChange={(e) => setIncludeNumbers(e.target.checked)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-          <label htmlFor="numbers" className="ml-2">Include Numbers</label>
+          <input
+            type="checkbox"
+            id="numbers"
+            checked={includeNumbers}
+            onChange={(e) => setIncludeNumbers(e.target.checked)}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label htmlFor="numbers" className="ml-2">
+            Include Numbers
+          </label>
         </div>
         <div className="flex items-center">
-          <input type="checkbox" id="symbols" checked={includeSymbols} onChange={(e) => setIncludeSymbols(e.target.checked)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-          <label htmlFor="symbols" className="ml-2">Include Symbols</label>
+          <input
+            type="checkbox"
+            id="symbols"
+            checked={includeSymbols}
+            onChange={(e) => setIncludeSymbols(e.target.checked)}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label htmlFor="symbols" className="ml-2">
+            Include Symbols
+          </label>
         </div>
         <div className="flex items-center">
-          <input type="checkbox" id="lookalikes" checked={excludeLookalikes} onChange={(e) => setExcludeLookalikes(e.target.checked)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-          <label htmlFor="lookalikes" className="ml-2">Exclude Look-alikes (I, l, 1, O, 0)</label>
+          <input
+            type="checkbox"
+            id="lookalikes"
+            checked={excludeLookalikes}
+            onChange={(e) => setExcludeLookalikes(e.target.checked)}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label htmlFor="lookalikes" className="ml-2">
+            Exclude Look-alikes (I, l, 1, O, 0)
+          </label>
         </div>
       </div>
     </div>

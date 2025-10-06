@@ -22,14 +22,12 @@ export const authOptions: NextAuthOptions = {
         const user: IUser | null = await User.findOne({ email: credentials.email });
 
         if (user && await bcrypt.compare(credentials.password, user.passwordHash)) {
-          // This object is passed to the `jwt` callback
           return { 
             id: user._id.toString(),
             email: user.email,
             encryptionSalt: user.encryptionSalt
           };
         } else {
-          // Returning null triggers the error flow in the signIn function
           return null;
         }
       }

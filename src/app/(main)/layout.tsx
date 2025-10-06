@@ -16,7 +16,6 @@ export default function MainLayout({
   const { isLoggedIn, isLoading: isAuthLoading, logout: lockVault } = useAuth();
   const router = useRouter();
 
-  // 🔑 Redirect to login if not authenticated
   useEffect(() => {
     if (isAuthLoading || status === "loading") return;
 
@@ -31,7 +30,6 @@ export default function MainLayout({
     window.location.href = "/login";
   };
 
-  // 🔄 Still checking session or auth
   if (isAuthLoading || status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -40,7 +38,6 @@ export default function MainLayout({
     );
   }
 
-  // ✅ Authenticated + Vault unlocked
   if (status === "authenticated" && isLoggedIn) {
     return (
       <div>
@@ -68,7 +65,6 @@ export default function MainLayout({
     );
   }
 
-  // 🕒 If authenticated but key not set yet
   if (status === "authenticated" && !isLoggedIn) {
     return (
       <div className="flex items-center justify-center min-h-screen">
