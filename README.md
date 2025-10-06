@@ -1,6 +1,6 @@
 # Secure Vault - A Client-Side Encrypted Password Manager
 
-[🌐 Live Demo](https://your-live-link.com)
+[🌐 Live Demo](https://password-vault-azure.vercel.app/vault)
 
 Secure Vault is a simple, fast, and privacy-first password manager built with **Next.js**, **MongoDB**, and **TypeScript**. It features **client-side encryption**, ensuring that your sensitive data is never stored in plaintext on the server.
 
@@ -84,5 +84,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Live Demo
 
 Check out the live version of Secure Vault here:  
-[https://your-live-link.com](https://your-live-link.com)
+[https://password-vault-azure.vercel.app/vault](https://password-vault-azure.vercel.app/vault)
 
